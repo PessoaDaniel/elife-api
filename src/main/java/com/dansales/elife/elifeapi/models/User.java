@@ -3,9 +3,15 @@ package com.dansales.elife.elifeapi.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity(name = "user")
-public class User extends BaseEntity {
+public class User extends BaseEntity implements UserDetails {
 
     @Column()
     protected String name;
@@ -27,6 +33,51 @@ public class User extends BaseEntity {
 
     @Column()
     protected String rg;
+
+    @Column()
+    protected boolean enabled = false;
+
+    @Column()
+    protected boolean locked = false;
+
+
+    private AuthRole role;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.role == AuthRole.ADMIN) {
+            return List.of(
+                    new SimpleGrantedAuthority("ROLE_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_USER")
+            );
+        }
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    @Override
+    public String getUsername() {
+        return this.getLogin();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return this.isLocked();
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.enabled;
+    }
 
     public String getName() {
         return name;
@@ -82,5 +133,17 @@ public class User extends BaseEntity {
 
     public void setRg(String rg) {
         this.rg = rg;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 }
