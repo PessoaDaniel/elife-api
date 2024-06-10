@@ -1,10 +1,12 @@
 package com.dansales.elife.elifeapi.controllers;
 
 import com.dansales.elife.elifeapi.DTO.AuthDTO;
+import com.dansales.elife.elifeapi.DTO.TokenDTO;
 import com.dansales.elife.elifeapi.DTO.UserDTO;
 import com.dansales.elife.elifeapi.models.AuthRole;
 import com.dansales.elife.elifeapi.models.User;
 import com.dansales.elife.elifeapi.repository.UserRepository;
+import com.dansales.elife.elifeapi.services.AccessTokenService;
 import com.dansales.elife.elifeapi.services.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -29,6 +31,9 @@ public class authController {
     private UserRepository userRepository;
 
     @Autowired
+    private AccessTokenService accessTokenService;
+
+    @Autowired
     private AuthService authService;
 
     @PostMapping(
@@ -39,8 +44,10 @@ public class authController {
     public ResponseEntity signIn(@RequestBody @Validated AuthDTO loginData) throws Exception {
 
             var loginPass = new UsernamePasswordAuthenticationToken(loginData.login(), loginData.password());
-           Authentication auth = this.authenticationManager.authenticate(loginPass);
-            return ResponseEntity.ok().build();
+            Authentication auth = this.authenticationManager.authenticate(loginPass);
+            String token = this.accessTokenService.generateAccessToken((User) auth.getPrincipal());
+
+            return ResponseEntity.ok(new TokenDTO(token));
     }
     @PostMapping(
             path = "auth/create-default",
