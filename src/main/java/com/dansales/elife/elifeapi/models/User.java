@@ -1,6 +1,7 @@
 package com.dansales.elife.elifeapi.models;
 
 
+import com.dansales.elife.elifeapi.repository.UserRepository;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import org.springframework.security.core.GrantedAuthority;
@@ -35,7 +36,7 @@ public class User extends BaseEntity implements UserDetails {
     protected String rg;
 
     @Column()
-    protected boolean enabled = false;
+    protected boolean enabled = true;
 
     @Column()
     protected boolean locked = false;
@@ -56,17 +57,17 @@ public class User extends BaseEntity implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.getLogin();
+        return this.getLogin() ;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return this.isLocked();
+        return !this.isLocked();
     }
 
     @Override
@@ -145,5 +146,13 @@ public class User extends BaseEntity implements UserDetails {
 
     public void setLocked(boolean locked) {
         this.locked = locked;
+    }
+
+    public AuthRole getRole() {
+        return role;
+    }
+
+    public void setRole(AuthRole role) {
+        this.role = role;
     }
 }

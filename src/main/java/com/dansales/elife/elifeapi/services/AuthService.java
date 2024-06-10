@@ -21,6 +21,6 @@ public class AuthService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }
-        return null;
+        return user;
     }
 }
