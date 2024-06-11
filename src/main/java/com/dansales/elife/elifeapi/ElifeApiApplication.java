@@ -9,5 +9,4 @@ public class ElifeApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ElifeApiApplication.class, args);
 	}
-
 }

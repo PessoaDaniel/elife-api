@@ -8,43 +8,44 @@ import com.dansales.elife.elifeapi.models.User;
 import com.dansales.elife.elifeapi.repository.UserRepository;
 import com.dansales.elife.elifeapi.services.AccessTokenService;
 import com.dansales.elife.elifeapi.services.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController()
+@CrossOrigin("http://localhost:4200")
 public class authController {
 
-    @Autowired()
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired()
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private AccessTokenService accessTokenService;
+    private final AccessTokenService accessTokenService;
 
-    @Autowired
-    private AuthService authService;
+
+    public authController(AuthenticationManager authenticationManager, UserRepository userRepository, AccessTokenService accessTokenService, AuthService authService) {
+        this.authenticationManager = authenticationManager;
+        this.userRepository = userRepository;
+        this.accessTokenService = accessTokenService;
+
+    }
 
     @PostMapping(
             path = "auth/login",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity signIn(@RequestBody @Validated AuthDTO loginData) throws Exception {
-
-            var loginPass = new UsernamePasswordAuthenticationToken(loginData.login(), loginData.password());
-            Authentication auth = this.authenticationManager.authenticate(loginPass);
+    public ResponseEntity signIn(@RequestBody @Validated AuthDTO loginData) {
+        UsernamePasswordAuthenticationToken loginPass = new UsernamePasswordAuthenticationToken(loginData.login(), loginData.password());
+        Authentication auth = this.authenticationManager.authenticate(loginPass);
             String token = this.accessTokenService.generateAccessToken((User) auth.getPrincipal());
 
             return ResponseEntity.ok(new TokenDTO(token));
