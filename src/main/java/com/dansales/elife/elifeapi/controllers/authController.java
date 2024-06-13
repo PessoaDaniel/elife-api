@@ -27,11 +27,18 @@ public class authController {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final AccessTokenService accessTokenService;
+    private final UserService userService;
 
-    public authController(AuthenticationManager authenticationManager, UserRepository userRepository, AccessTokenService accessTokenService, AuthService authService) {
+    public authController(
+            AuthenticationManager authenticationManager,
+            UserRepository userRepository,
+            AccessTokenService accessTokenService,
+            AuthService authService,
+            UserService userService) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.accessTokenService = accessTokenService;
+        this.userService = userService;
     }
 
     @PostMapping(
@@ -57,7 +64,7 @@ public class authController {
         if (this.userRepository.findByLogin(user.getLogin()) != null) {
             return ResponseEntity.badRequest().build();
         }
-        new UserService(this.userRepository).StoreDefault(user);
+        this.userService.StoreDefault(user);
         return ResponseEntity.ok().build();
     }
 }

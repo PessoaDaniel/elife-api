@@ -20,15 +20,4 @@ public class MessageController {
     public MessageController(EmailService emailService) {
         this.emailService = emailService;
     }
-
-    @PostMapping(path = "/service/send-verify-email",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity sendVerificationEmail(@RequestBody @Valid TwoFactorEmailDTO emailDTO) {
-        Email email = new Email();
-        BeanUtils.copyProperties(emailDTO, email);
-        this.emailService.send2FactorEmail(email);
-        return ResponseEntity.ok().build();
-    }
-
 }

@@ -18,8 +18,8 @@ public class EmailService {
         this.emailRepository = emailRepository;
         this.mailSender = mailSender;
     }
-    public void  send2FactorEmail(Email email) {
-        email.setContent("Este é um email de confirmação, click no link para ativar sua conta");
+    public void  send2FactorEmail(Email email, String token) {
+        email.setContent("Este é um email de confirmação, click no link: http://localhost:8080/service/verify-acount/" + token +" para ativar sua conta elife");
         email.setFrom("elife@gmail.com");
         email.setTo(email.getTo());
         email.setSubject("Verificação de conta elife");
