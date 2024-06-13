@@ -1,4 +1,4 @@
-package com.dansales.elife.elifeapi.services;
+package com.dansales.elife.elifeapi.services.auth;
 
 
 import com.dansales.elife.elifeapi.models.User;

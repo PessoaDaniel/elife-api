@@ -1,10 +1,22 @@
 package com.dansales.elife.elifeapi.DTO;
 
-import com.dansales.elife.elifeapi.models.AuthRole;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
-public record UserDTO(
-        String email, String name, String password,
-        String login, String cpf, String phone,
-        String rg
-        ) {
+@Data
+public class UserDTO {
+    @Email
+    @NotBlank
+    private String email;
+    @NotBlank
+    private String name; String password;
+    @NotBlank
+    private String login;
+    @NotBlank
+    private String cpf;
+    @NotBlank
+    private String phone;
+    @NotBlank
+    private String rg;
 }

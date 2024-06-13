@@ -1,7 +1,7 @@
 package com.dansales.elife.elifeapi.models;
 
 
-import com.dansales.elife.elifeapi.repository.UserRepository;
+import com.dansales.elife.elifeapi.models.enums.AuthRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import org.springframework.security.core.GrantedAuthority;

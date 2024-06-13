@@ -1,4 +1,4 @@
-package com.dansales.elife.elifeapi.models;
+package com.dansales.elife.elifeapi.models.enums;
 
 
 
@@ -7,7 +7,7 @@ public enum AuthRole {
     ADMIN("admin"),
     USER("user");
 
-    private String role;
+    private final String role;
 
     AuthRole(String role) {
         this.role = role;

@@ -1,4 +1,4 @@
-package com.dansales.elife.elifeapi.services;
+package com.dansales.elife.elifeapi.services.auth;
 
 
 import com.auth0.jwt.JWT;

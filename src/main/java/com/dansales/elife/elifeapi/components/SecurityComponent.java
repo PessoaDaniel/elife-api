@@ -2,7 +2,7 @@ package com.dansales.elife.elifeapi.components;
 
 
 import com.dansales.elife.elifeapi.repository.UserRepository;
-import com.dansales.elife.elifeapi.services.AccessTokenService;
+import com.dansales.elife.elifeapi.services.auth.AccessTokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
